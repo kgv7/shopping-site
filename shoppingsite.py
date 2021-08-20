@@ -6,7 +6,7 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, session
 import jinja2
 
 import melons
@@ -14,7 +14,7 @@ import melons
 app = Flask(__name__)
 
 # A secret key is needed to use Flask sessioning features
-app.secret_key = 'this-should-be-something-unguessable'
+app.secret_key = 'melon123'
 
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
@@ -30,9 +30,10 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 @app.route("/")
 def index():
     """Return homepage."""
-
+    session['fav_number'] = 64
+    fav_num = session['fav_number']
+    print(fav_num)
     return render_template("homepage.html")
-
 
 @app.route("/melons")
 def list_melons():
@@ -78,6 +79,8 @@ def show_shopping_cart():
     # Make sure your function can also handle the case wherein no cart has
     # been added to the session
 
+    
+
     return render_template("cart.html")
 
 
@@ -99,8 +102,22 @@ def add_to_cart(melon_id):
     # - increment the count for that melon id by 1
     # - flash a success message
     # - redirect the user to the cart page
+    
+    count = 1
+    
+    if session["cart"] == False:
+        session["cart"] = {}
+    if session["cart"] == True and melon_id not in session["cart"]:        
+        session["cart"] = {melon_id: count}
+    elif session["cart"] == True and melon_id in session["cart"]:  
+        # session["cart"] = {melon_id: count}
+        session["cart"][melon_id] = count + 1
+        # count += 1
+    
+    flash(f"{melon_id} added")
+    print(session["cart"])
 
-    return "Oops! This needs to be implemented!"
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])
