@@ -102,17 +102,26 @@ def add_to_cart(melon_id):
     # - increment the count for that melon id by 1
     # - flash a success message
     # - redirect the user to the cart page
-    
+
     count = 1
-    
-    if session["cart"] == False:
+
+    if session.get("cart") is None:
         session["cart"] = {}
-    if session["cart"] == True and melon_id not in session["cart"]:        
-        session["cart"] = {melon_id: count}
-    elif session["cart"] == True and melon_id in session["cart"]:  
-        # session["cart"] = {melon_id: count}
-        session["cart"][melon_id] = count + 1
-        # count += 1
+    elif session.get("cart") is not None:
+        if melon_id not in session["cart"]:
+            session["cart"] = {melon_id: count}
+        elif melon_id in session["cart"]:
+            session["cart"][melon_id] = session["cart"].get(melon_id, 1) + 1
+
+    
+    # if session["cart"] == False:
+    #     session["cart"] = {}
+    # if session["cart"] == True and melon_id not in session["cart"]:        
+    #     session["cart"] = {melon_id: count}
+    # elif session["cart"] == True and melon_id in session["cart"]:  
+    #     # session["cart"] = {melon_id: count}
+    #     session["cart"][melon_id] = count + 1
+    #     # count += 1
     
     flash(f"{melon_id} added")
     print(session["cart"])
