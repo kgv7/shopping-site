@@ -105,23 +105,14 @@ def add_to_cart(melon_id):
 
     count = 1
 
-    if session.get("cart") is None:
+    
+    if "cart" not in session:
         session["cart"] = {}
-    elif session.get("cart") is not None:
+    else:
         if melon_id not in session["cart"]:
-            session["cart"] = {melon_id: count}
+            session["cart"][melon_id] = count
         elif melon_id in session["cart"]:
             session["cart"][melon_id] = session["cart"].get(melon_id, 1) + 1
-
-    
-    # if session["cart"] == False:
-    #     session["cart"] = {}
-    # if session["cart"] == True and melon_id not in session["cart"]:        
-    #     session["cart"] = {melon_id: count}
-    # elif session["cart"] == True and melon_id in session["cart"]:  
-    #     # session["cart"] = {melon_id: count}
-    #     session["cart"][melon_id] = count + 1
-    #     # count += 1
     
     flash(f"{melon_id} added")
     print(session["cart"])
