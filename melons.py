@@ -18,6 +18,8 @@ class Melon(object):
                  image_url,
                  color,
                  seedless,
+                #  qty,
+                #  total_cost
                  ):
         self.melon_id = melon_id
         self.melon_type = melon_type
@@ -26,6 +28,8 @@ class Melon(object):
         self.image_url = image_url
         self.color = color
         self.seedless = seedless
+        # self.qty= qty
+        # self.total_cost=total_cost
 
     def price_str(self):
         """Return price formatted as string $x.xx"""

@@ -60,6 +60,26 @@ def show_melon(melon_id):
 @app.route("/cart")
 def show_shopping_cart():
     """Display content of shopping cart."""
+    final_cart=session["cart"]
+    order_total=0
+    melon_list = []
+    
+    for melon in final_cart:
+        melon_item = melons.get_by_id(melon)
+
+        qty = int(session["cart"][melon_item.melon_id])
+        melon_item.qty = qty
+
+        total_cost = melon_item.price * qty
+        melon_item.total_cost = total_cost
+        print(f"total cost: {melon_item.total_cost}")
+
+        order_total=order_total+total_cost
+
+        melon_list.append(melon_item)
+  
+
+    print(melon_list)
 
     # TODO: Display the contents of the shopping cart.
 
@@ -115,7 +135,7 @@ def add_to_cart(melon_id):
             session["cart"][melon_id] = session["cart"].get(melon_id, 1) + 1
     
     flash(f"{melon_id} added")
-    print(session["cart"])
+    print(f"this is from add cart {session['cart']}")
 
     return redirect("/cart")
 
