@@ -43,3 +43,4 @@ def get_by_email(email):
 customer_data = read_file("customers.txt")
 
 
+# to access class attributes: customer_data["jane@jane.com"].first_name gives Jane
